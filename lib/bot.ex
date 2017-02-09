@@ -21,5 +21,3 @@ defmodule Bot do
   def handle_event(_, _, state), do: {:ok, state}
 
 end
-
-# {:ok, bot} = Slack.Bot.start_link(Bot, [], Application.get_env(:slack, :api_token))
