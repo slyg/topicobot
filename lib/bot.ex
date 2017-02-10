@@ -11,16 +11,33 @@ defmodule Bot do
   def handle_event(message = %{type: "presence_change", presence: "active"}, slack, state) do
     user_dm_channel_id = Slack.Lookups.lookup_direct_message_id(message.user, slack)
     send_message("Hello :)", user_dm_channel_id, slack)
-    
+
     {:ok, state}
   end
   def handle_event(message = %{type: "message"}, slack, state) do
     if is_direct_message?(message, slack) do
+
       reply = reply(message.text)
+
       case reply do
-        {:ok, response} -> send_message(response, message.channel, slack)
-        _ -> {:ok, state}
+        {:ok, response} ->
+          attachments = [
+            %{
+              title: "Are you WFH today ?",
+              callback_id: "123",
+              attachment_type: "default",
+              actions: [
+                %{name: "yes", text: "Yes", value: "yes", type: "button"},
+                %{name: "no", text: "No", value: "no", type: "button"}
+              ]
+            }
+          ] |> JSX.encode!
+
+          Slack.Web.Chat.post_message(message.channel, response, %{ attachments: attachments })
+        _ ->
+          {:ok, state}
       end
+
     end
 
     {:ok, state}
@@ -40,7 +57,7 @@ defmodule Bot do
     {type, msg}
   end
 
-  defp do_reply({:hi, _msg}), do: {:ok, "Hi, I hope you're doing well :grinning:"}
+  defp do_reply({:hi, _msg}), do: {:ok, "I hope you're doing well :grinning:."}
   defp do_reply({:bye, _msg}), do: {:ok, "Bye bye !"}
   defp do_reply(_), do: {:ko, nil}
 
