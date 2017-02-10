@@ -1,8 +1,8 @@
-defmodule Bot.Mixfile do
+defmodule Topico.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :bot,
+    [app: :topico,
      version: "0.1.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
@@ -15,8 +15,8 @@ defmodule Bot.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger]]
-    [applications: [:logger, :slack]]
+    [extra_applications: [:logger],
+     mod: {Topico, []}]
   end
 
   # Dependencies can be Hex packages:

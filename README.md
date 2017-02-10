@@ -24,12 +24,6 @@ config :slack, api_token: <API_TOKEN>
 ...
 ```
 
-#### Compile
-
-```
-$ mix run --no-halt
-```
-
 #### Start bot via repl
 
 ```
@@ -39,7 +33,7 @@ $ iex -S mix
 ```
 
 ```
-# starts bot process
+# starts bot process (supervisor might already did it though)
 
 iex> {:ok, bot} = Slack.Bot.start_link(Bot, [], Application.get_env(:slack, :api_token))
 ```

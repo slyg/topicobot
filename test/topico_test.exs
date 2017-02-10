@@ -1,6 +1,6 @@
-defmodule BotTest do
+defmodule TopicoTest do
   use ExUnit.Case
-  doctest Bot
+  doctest Topico
 
   test "the truth" do
     assert 1 + 1 == 2

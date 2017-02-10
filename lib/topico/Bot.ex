@@ -23,7 +23,7 @@ defmodule Bot do
     if is_direct_message?(message, slack) do
 
       case reply(message.text) do
-        
+
         {:ok, response, {:yes, _}} ->
           send_message(response, message.channel, slack)
 
@@ -69,8 +69,8 @@ defmodule Bot do
   end
 
   defp do_reply(msg = {:hi, _}),  do: {:ok, "I hope you're doing well :grinning:.", msg}
-  defp do_reply(msg = {:no, _}),  do: {:ok, "I understand you're in the office today, have a good day !", msg}
-  defp do_reply(msg = {:yes, _}), do: {:ok, "I understand you're working from home today, enjoy the flow !", msg}
+  defp do_reply(msg = {:no, _}),  do: {:ok, ":office: I understand you're in the office today, have a good day !", msg}
+  defp do_reply(msg = {:yes, _}), do: {:ok, ":house: I understand you're working from home today, enjoy the flow !", msg}
   defp do_reply(msg = {:bye, _}), do: {:ok, "Bye bye !", msg}
   defp do_reply(msg),             do: {:ko, nil, msg}
 
