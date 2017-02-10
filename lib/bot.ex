@@ -1,7 +1,12 @@
 defmodule Bot do
   use Slack
 
-  @message_types [{~r/(hi|hey|yup|hello|salut)/, :hi}, {~r/bye/, :bye}]
+  @message_types [
+    {~r/(hi|hey|hello|salut)/, :hi},
+    {~r/(yes|yep)/, :yes},
+    {~r/(no|nope)/, :no},
+    {~r/bye/, :bye}
+  ]
 
   def handle_connect(slack, state) do
     IO.puts "Connected as #{slack.me.name}"
@@ -17,10 +22,15 @@ defmodule Bot do
   def handle_event(message = %{type: "message"}, slack, state) do
     if is_direct_message?(message, slack) do
 
-      reply = reply(message.text)
+      case reply(message.text) do
+        
+        {:ok, response, {:yes, _}} ->
+          send_message(response, message.channel, slack)
 
-      case reply do
-        {:ok, response} ->
+        {:ok, response, {:no, _}} ->
+          send_message(response, message.channel, slack)
+
+        {:ok, response, _} ->
           attachments = [
             %{
               title: "Are you WFH today ?",
@@ -34,6 +44,7 @@ defmodule Bot do
           ] |> JSX.encode!
 
           Slack.Web.Chat.post_message(message.channel, response, %{ attachments: attachments })
+
         _ ->
           {:ok, state}
       end
@@ -57,8 +68,10 @@ defmodule Bot do
     {type, msg}
   end
 
-  defp do_reply({:hi, _msg}), do: {:ok, "I hope you're doing well :grinning:."}
-  defp do_reply({:bye, _msg}), do: {:ok, "Bye bye !"}
-  defp do_reply(_), do: {:ko, nil}
+  defp do_reply(msg = {:hi, _}),  do: {:ok, "I hope you're doing well :grinning:.", msg}
+  defp do_reply(msg = {:no, _}),  do: {:ok, "I understand you're in the office today, have a good day !", msg}
+  defp do_reply(msg = {:yes, _}), do: {:ok, "I understand you're working from home today, enjoy the flow !", msg}
+  defp do_reply(msg = {:bye, _}), do: {:ok, "Bye bye !", msg}
+  defp do_reply(msg),             do: {:ko, nil, msg}
 
 end
