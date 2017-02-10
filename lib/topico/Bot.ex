@@ -1,4 +1,4 @@
-defmodule Bot do
+defmodule Topico.Bot do
   use Slack
 
   @message_types [
