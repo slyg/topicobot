@@ -1,4 +1,4 @@
-defmodule Topico.Bot do
+defmodule Topicobot.Handler do
   use Slack
 
   @message_types [
@@ -45,8 +45,8 @@ defmodule Topico.Bot do
 
   defp parse(msg) do
     {_, type} = Enum.find(@message_types, {nil, :unknown}, fn {reg, _type} ->
-       String.match?(msg, reg)
-     end)
+      String.match?(msg, reg)
+    end)
     {type, msg}
   end
 

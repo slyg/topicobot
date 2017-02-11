@@ -1,5 +1,5 @@
-defmodule Topico do
-  use Application, Slack
+defmodule Topicobot do
+  use Application
 
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
@@ -7,10 +7,10 @@ defmodule Topico do
     slack_token = Application.get_env(:slack, :api_token)
 
     children = [
-      worker(Slack.Bot, [Topico.Bot, [], slack_token])
+      worker(Slack.Bot, [Topicobot.Handler, [], slack_token])
     ]
 
-    opts = [strategy: :one_for_one, name: Topico.Supervisor]
+    opts = [strategy: :one_for_one, name: Topicobot.Supervisor]
 
     Supervisor.start_link(children, opts)
   end

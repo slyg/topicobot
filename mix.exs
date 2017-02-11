@@ -1,9 +1,9 @@
-defmodule Topico.Mixfile do
+defmodule Topicobot.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :topico,
+      app: :Topicobot,
       version: "0.1.0",
       elixir: "~> 1.4",
       build_embedded: Mix.env == :prod,
@@ -19,7 +19,7 @@ defmodule Topico.Mixfile do
     # Specify extra applications you'll use from Erlang/Elixir
     [
       extra_applications: [:logger],
-      mod: {Topico, []}
+      mod: {Topicobot, []}
     ]
   end
 
