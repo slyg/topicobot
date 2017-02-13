@@ -26,6 +26,8 @@ config :slack, api_token: <API_TOKEN>
 
 #### Start bot via repl
 
+Comment `mod: {Topicobot, []}` line in `mix.exs` file, then
+
 ```
 # start iex
 
@@ -35,5 +37,5 @@ $ iex -S mix
 ```
 # starts bot process (supervisor might already did it though)
 
-iex> {:ok, bot} = Slack.Bot.start_link(Bot, [], Application.get_env(:slack, :api_token))
+iex> {:ok, bot} = Topicobot.Supervisor.start_link
 ```
