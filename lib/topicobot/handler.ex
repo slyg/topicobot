@@ -1,11 +1,15 @@
 defmodule Topicobot.Handler do
+  @moduledoc """
+  Provides handlers for bot incoming messages
+  """
+
   use Slack
 
   @message_types [
-    {~r/(hi|hey|hello|salut)/, :hi},
-    {~r/(yes|yep|wfh)/, :yes},
-    {~r/(no|nope)/, :no},
-    {~r/bye/, :bye}
+    {~r/(hi|hey|hello|salut)/i, :hi},
+    {~r/(yes|yep|wfh)/i, :yes},
+    {~r/(no|nope)/i, :no},
+    {~r/bye/i, :bye}
   ]
 
   def handle_connect(slack, state) do
